@@ -7,8 +7,9 @@ const config = require ('config');
 const { check, validationResult } = require('express-validator');
 
 const User= require('../../models/User');
+const Owner= require('../../models/Owner');
 
-router.get('/', auth, async (req, res) => {
+router.get('/basic', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
@@ -19,8 +20,19 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+router.get('/admin', auth, async (req, res) => {
+    try {
+        const owner = await Owner.findById(req.owner.id).select('-password');
+        res.json(owner);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+
+    }
+});
+
 // @route     POST api/auth
-// @desc      Authenticate user & get tokenbb
+// @desc      Authenticate user(basic and admin) & get tokenbb
 // @access    Public
 router.post(
     '/',
@@ -36,8 +48,11 @@ async (req, res) => {
     }
 
     const {email,password,role} = req.body;
-
+    
     try {
+
+        if (role==='basic')
+        {
     // see if user exists
         let user= await User.findOne({email});
 
@@ -71,7 +86,43 @@ async (req, res) => {
             res.json({ token });
         }
         );
+    }
+    else
+    {
+        let owner= await Owner.findOne({email});
 
+        if (!owner) {
+            return res
+            .status (400)
+            .json({errors: [ { msg: 'Invalid Credentials'}]});
+        }
+ 
+    const isMatch = await bcrypt.compare (password, owner.password);
+
+    if(!isMatch) {
+        return res
+            .status (400)
+            .json({errors: [ { msg: 'Invalid Credentials'}]});
+    }
+
+    const payload = {
+        owner: {
+            id: owner.id,
+            role: owner.role
+        }
+    };
+
+    jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        { expiresIn: 360000 },
+        (err, token)=> {
+            if(err) throw err;
+            res.json({ token });
+        }
+        );
+
+    }
     } catch (err){
         console.error(err.message);
         res.status(500).send('Server error');
