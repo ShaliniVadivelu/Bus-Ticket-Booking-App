@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://ShaliniSrirama_V:Srirama!123@happybus.zmj5q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://ShaliniSrirama_V:Srirama!123@happybus.zmj5q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "mysecrettoken"
 }
