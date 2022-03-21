@@ -8,6 +8,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       maxlength: 30
     },
+    role: {
+      type: String,
+      required: true,
+      ref : "../../config/data"
+    },
     email: {
       type: String,
       required: true
@@ -31,6 +36,10 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true
+    },
+    date: { 
+      type: Date,
+      default: Date.now       
     },
     bookings: [
       {
