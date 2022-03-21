@@ -1,17 +1,17 @@
 // getting express framework
 const express = require ('express');
 const connectDB = require ('./config/db');
-
 //declaring express to a variable 'app' to access it.
 const app = express ();
 
 //connecting the database. Calling the connectDB
 connectDB();
 
-app.get ('/', (req, res) => {
-    res.send("ticket booking app");
-    console.log("BUS TICKET BOOKING APP");
-});
+// init Middleware
+app.use(express.json({ extended: false }));
+
+//user api
+app.use('/api/user', require ('./routes/api/user'));
 
 const PORT= process.env.PORT || 5001;
 
