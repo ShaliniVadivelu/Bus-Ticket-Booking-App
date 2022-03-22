@@ -5,10 +5,12 @@ const Schema = mongoose.Schema;
 const BusSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
-        ref: 'owner'
+        required: true,
+        ref: 'Owner'
     },
     busType: {
         type: String,
+        required: true,
         enum: ["AC", "Delux", "Normal", "Suspense AC", "Suspense Delux"]
     },
     busNumber: {
@@ -28,6 +30,7 @@ const BusSchema = new Schema({
     },
     totalSeats: {
         type: Number,
+        required: true,
         default: 30,
         maxlength: 60
     },
