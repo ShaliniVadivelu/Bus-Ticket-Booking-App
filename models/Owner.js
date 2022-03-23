@@ -25,7 +25,6 @@ const ownerSchema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
-      ref : "../../config/data"
     },
     password: {
       type: String,
