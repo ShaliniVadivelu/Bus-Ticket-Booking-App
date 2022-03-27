@@ -8,8 +8,9 @@ const { check, validationResult } = require('express-validator');
 
 const User= require('../../models/User');
 const Owner= require('../../models/Owner');
+const {ROLE} = require('../../config/data');
 
-router.get('/basic', auth, async (req, res) => {
+router.get('/basic',auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
@@ -22,8 +23,8 @@ router.get('/basic', auth, async (req, res) => {
 
 router.get('/admin', auth, async (req, res) => {
     try {
-        const owner = await Owner.findById(req.owner.id).select('-password');
-        res.json(owner);
+        const user = await Owner.findById(req.user.id).select('-password');
+        res.json(user);
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server Error');
@@ -73,7 +74,7 @@ async (req, res) => {
     const payload = {
         user: {
             id: user.id,
-            role: user.role
+            role: ROLE.BASIC
         }
     };
 
@@ -89,15 +90,15 @@ async (req, res) => {
     }
     else
     {
-        let owner= await Owner.findOne({email});
+        let user= await Owner.findOne({email});
 
-        if (!owner) {
+        if (!user) {
             return res
             .status (400)
             .json({errors: [ { msg: 'Invalid Credentials'}]});
         }
  
-    const isMatch = await bcrypt.compare (password, owner.password);
+    const isMatch = await bcrypt.compare (password, user.password);
 
     if(!isMatch) {
         return res
@@ -106,9 +107,9 @@ async (req, res) => {
     }
 
     const payload = {
-        owner: {
-            id: owner.id,
-            role: owner.role
+        user: {
+            id: user.id,
+            role: ROLE.ADMIN
         }
     };
 
