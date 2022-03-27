@@ -5,13 +5,16 @@ const Schema = mongoose.Schema;
 const BusSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
+        ref: 'Owner' 
+    },
+    companyName: {
+        type: String,
         required: true,
-        ref: 'Owner'
     },
     busType: {
         type: String,
         required: true,
-        enum: ["AC", "Delux", "Normal", "Suspense AC", "Suspense Delux"]
+        enum: ["AC", "Delux", "Normal", "Suspense AC", "Suspense Delux"]  //enum allows a developer to define the set of named constants
     },
     busNumber: {
         type: Number,

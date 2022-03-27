@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ownerSchema = new mongoose.Schema(
+const ownerSchema = new Schema(
   {
     companyName: {
       type: String,
@@ -33,7 +33,7 @@ const ownerSchema = new mongoose.Schema(
     },
     buses: [
           {
-            type:mongoose.Schema.Types.ObjectId,
+            type:Schema.Types.ObjectId,
             ref: 'Bus'
           }
       ]
