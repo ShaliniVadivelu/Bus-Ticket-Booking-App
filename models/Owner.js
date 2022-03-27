@@ -25,6 +25,7 @@ const ownerSchema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
+      ref: 'data'
     },
     password: {
       type: String,
@@ -32,7 +33,7 @@ const ownerSchema = new mongoose.Schema(
     },
     buses: [
           {
-            type: Schema.Types.ObjectId,
+            type:mongoose.Schema.Types.ObjectId,
             ref: 'Bus'
           }
       ]
