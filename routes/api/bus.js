@@ -2,16 +2,16 @@ const express = require('express');
 const router = express.Router();
 const {check, validationResult} = require('express-validator');
 
-const auth = require('../../middleware/auth');
+const authOwner= require('../../middleware/auth');
+const authRole= require('../../middleware/auth');
 const Owner = require('../../models/Owner');
 const Bus = require('../../models/Bus');
-const {ROLE} = require('../../config/data');
 
 // @route     POST api/bus
 // @desc      Creating new bus and its details
 // @access    Private
 
-router.post('/',[auth,
+router.post('/',[authOwner,
     [
     check('companyName', 'Company name is required').not().isEmpty(),
     check('busType', 'Please include the bus type').not().isEmpty(),
@@ -47,14 +47,19 @@ router.post('/',[auth,
     // Build profile object
     const busFields = {};
     
-    busFields.user =  req.user.id;
+    busFields.owner =  req.owner.id;
     if(companyName) busFields.companyName =  companyName;
     if(busType) busFields.busType =  busType;
     if(busNumber) busFields.busNumber =  busNumber;
     if(startCity) busFields.startCity =  startCity;
     if(destination) busFields.destination =  destination;
     if(totalSeats) busFields.totalSeats =totalSeats;
-    
+    if(availableSeats) busFields.availableSeats =totalSeats;
+    if(pricePerSeat) busFields.pricePerSeat =pricePerSeat;
+    if(departureDate) busFields.departureDate =departureDate;
+    if(departureTime) busFields.departureTime =departureTime;
+    if(duration) busFields.duration =duration;
+
         let bus = await Bus.findOne({busNumber});
 
         if(bus)
@@ -63,13 +68,12 @@ router.post('/',[auth,
         }
         
         try {
-            
-        let bus = await Bus.findOne({user: req.user.id});
+        let bus = await Bus.findOne({owner: req.owner.id});
         
         if(bus) {
             // Update   
             bus = await Bus.findOneAndUpdate(
-                { user: req.user.id}, 
+                { owner: req.owner.id}, 
                 {$set: busFields},
                 {new: true}
             );
@@ -89,4 +93,18 @@ router.post('/',[auth,
     }
 });
 
+// @route     GET api/buses
+// @desc      Get all bus for a owner
+// @access    Public
+
+router.get ('/buses', async (req,res) => {
+    try  {
+        const buses = await Bus.find().populate('owner', ['name', 'avatar']) ;
+        res.json(buses);
+    } catch (err) {
+        console.error (err.message);
+        res.status(500).send ('Server error');
+
+    }
+});
 module.exports = router;
