@@ -37,7 +37,7 @@ const ownerSchema = new Schema(
             ref: 'Bus'
           }
       ]
-  },
+  }
 );
 
 module.exports = mongoose.model("Owner", ownerSchema);
