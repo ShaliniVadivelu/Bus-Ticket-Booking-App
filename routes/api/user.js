@@ -8,7 +8,7 @@ const config = require('config');
 const {check, validationResult} = require('express-validator');
 const User = require('../../models/User');
 const Owner = require('../../models/Owner');
-const {ROLE} = require ('../../config/data');
+const ROLE = require ('../../config/data');
 
 // @route     POST api/users
 // @desc      Register user
@@ -104,19 +104,14 @@ router.post ('/admin', [
     const {companyName,officeAddress,role,phone,email,password}=req.body;
     
     try {
-        let user = await Owner.findOne({companyName});
         
-        if(user)
-        {
-            return res.status(400).json({errors:[{msg: 'Company is already exist'}]});
-        }
         const avatar = gravatar.url(companyName,{
             s:'200',
             r:'pg',
             d:'mm'
         });
         
-        user = new Owner ({
+        let owner = new Owner ({
             companyName,
             officeAddress,
             phone,
@@ -124,16 +119,16 @@ router.post ('/admin', [
             role,
             password
         });
-        console.log("admin's required field", user);
+        
         const salt = await bcrypt.genSalt(10);    
 
-        user.password = await bcrypt.hash(password, salt);  
+        owner.password = await bcrypt.hash(password, salt);  
 
-        await user.save();
+        await owner.save();
 
         const payload ={
-            user: {
-                id: user.id,
+            owner: {
+                id: owner.id,
                 role: ROLE.ADMIN
             }
         };

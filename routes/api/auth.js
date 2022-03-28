@@ -1,6 +1,7 @@
 const express =require('express');
 const router = express.Router();
-const auth = require('../../middleware/auth');
+const authBasic = require('../../middleware/auth');
+const authOwner = require('../../middleware/auth');
 const bcrypt = require('bcryptjs');
 const jwt = require ('jsonwebtoken');
 const config = require ('config');
@@ -8,27 +9,25 @@ const { check, validationResult } = require('express-validator');
 
 const User= require('../../models/User');
 const Owner= require('../../models/Owner');
-const {ROLE} = require('../../config/data');
+const ROLE = require('../../config/data');
 
-router.get('/basic',auth, async (req, res) => {
+router.get('/basic', authBasic , async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
         res.json(user);
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server Error');
-
     }
 });
 
-router.get('/admin', auth, async (req, res) => {
+router.get('/admin', authOwner, async (req, res) => {
     try {
-        const user = await Owner.findById(req.user.id).select('-password');
-        res.json(user);
+        const owner = await Owner.findById(req.owner.id).select('-password');
+        res.json(owner);
     } catch(err) {
         console.error(err.message);
         res.status(500).send('Server Error');
-
     }
 });
 
@@ -90,15 +89,15 @@ async (req, res) => {
     }
     else
     {
-        let user= await Owner.findOne({email});
+        let owner= await Owner.findOne({email});
 
-        if (!user) {
+        if (!owner) {
             return res
             .status (400)
             .json({errors: [ { msg: 'Invalid Credentials'}]});
         }
  
-    const isMatch = await bcrypt.compare (password, user.password);
+    const isMatch = await bcrypt.compare (password, owner.password);
 
     if(!isMatch) {
         return res
@@ -107,8 +106,8 @@ async (req, res) => {
     }
 
     const payload = {
-        user: {
-            id: user.id,
+        owner: {
+            id: owner.id,
             role: ROLE.ADMIN
         }
     };
