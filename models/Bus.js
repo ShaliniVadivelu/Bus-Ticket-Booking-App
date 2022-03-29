@@ -55,7 +55,11 @@ const BusSchema = new Schema({
     duration: {
         type: String,
         maxlength: 32
-    }
+    },
+    date: { 
+        type: Date,
+        default: Date.now       
+      }
 });
 
 module.exports  = mongoose.model("Bus", BusSchema);
