@@ -1,24 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const {check, validationResult} = require('express-validator');
+const {check, validationResult, checkSchema} = require('express-validator');
 
 const authOwner= require('../../middleware/auth');
 const authRole= require('../../middleware/auth');
 const Owner = require('../../models/Owner');
 const Bus = require('../../models/Bus');
 
-// @route     POST api/bus
+// @route     POST api/bus/createBus
 // @desc      Creating new bus and its details
 // @access    Private
 
-router.post('/',[authOwner,
+router.put('/createBus',[authRole,authOwner,
     [
     check('companyName', 'Company name is required').not().isEmpty(),
-    check('busType', 'Please include the bus type').not().isEmpty(),
-    check('busNumber', 'Please include the bus number').not().isEmpty().isNumeric(),
-    check('startCity', 'Please include the start city').not().isEmpty(),
-    check('destination', 'Please include the destination city').not().isEmpty(),
-    check('totalSeats', 'please include the total no.of seats').not().isEmpty().isNumeric()
+    check('busType', 'Bus type is required').not().isEmpty(),
+    check('busNumber', 'Bus number is required').not().isEmpty().isNumeric(),
+    check('startCity', 'Start city is required').not().isEmpty(),
+    check('destination', 'Destination city is required').not().isEmpty(),
+    check('totalSeats', 'Please include the total no.of seats').not().isEmpty().isNumeric(),
+    check('availableSeats', 'Please include the available seats').not().isEmpty().isNumeric(),
+    check('pricePerSeat', 'Please include the price of per seat').not().isEmpty().isNumeric(),
+    check('departureDate','Departure date is required').not().isEmpty(),
+    check('duration','Duration is required').not().isEmpty()
     ]
 ], 
  async (req, res) => {
@@ -44,7 +48,6 @@ router.post('/',[authOwner,
         duration
     }=req.body;
 
-    // Build profile object
     const busFields = {};
     
     busFields.owner =  req.owner.id;
@@ -60,34 +63,30 @@ router.post('/',[authOwner,
     if(departureTime) busFields.departureTime =departureTime;
     if(duration) busFields.duration =duration;
 
-        let bus = await Bus.findOne({busNumber});
+    let bus = await Bus.findOne({busNumber});
 
         if(bus)
         {
-            return res.status(400).json({errors:[{msg: 'Bus already exist'}]});
-        }
+            let bus = await Bus.findOne({owner: req.owner.id});
         
-        try {
-        let bus = await Bus.findOne({owner: req.owner.id});
-        
-        if(bus) {
-            // Update   
-            bus = await Bus.findOneAndUpdate(
-                { owner: req.owner.id}, 
-                {$set: busFields},
-                {new: true}
-            );
-
-            return res.json (bus);
+                if(bus) {
+                    bus = await Bus.findOneAndUpdate(
+                    {owner: req.owner.id}, 
+                    {$set: busFields},
+                    {new: true}
+                    );
+                return res.json (bus);
+            }
         }
 
-        //Create    
-        bus = new Bus(busFields);
+    try {
+        let newBus = new Bus(busFields);
+        
+        await newBus.save();
 
-        await bus.save();
-        res.json(bus);
+        res.json(newBus);
 
-    } catch (err) {
+} catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');
     }
@@ -97,7 +96,7 @@ router.post('/',[authOwner,
 // @desc      Get all bus for a owner
 // @access    Public
 
-router.get ('/buses', async (req,res) => {
+router.get ('/', async (req,res) => {
     try  {
         const buses = await Bus.find().populate('owner', ['name', 'avatar']) ;
         res.json(buses);
