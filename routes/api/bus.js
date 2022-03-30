@@ -92,9 +92,9 @@ router.put('/createBus',[authRole,authOwner,
     }
 });
 
-// @route     GET api/buses
-// @desc      Get all bus for a owner
-// @access    Public
+// @route     GET api
+// @desc      Get all bus details
+// @access    Public 
 
 router.get ('/', async (req,res) => {
     try  {
@@ -106,4 +106,24 @@ router.get ('/', async (req,res) => {
 
     }
 });
+
+// @route     GET api/bus/owner/:owner_id
+// @desc      Get all bus details for a paritcular owner ID
+// @access    Public
+
+router.get ('/owner/:owner_id', async (req,res) => {
+    try  {
+        const bus = await Bus.find({ owner: req.params.owner_id }).populate('owner', ['name', 'avatar'] );
+        if (!bus)
+            return res.status(400).json({msg : 'Bus not found' });
+        res.json(bus);
+    } catch (err) {
+        console.error (err.message);
+        if(err.kind == 'ObjectId') {
+            return res.status(400).json({msg : 'Bus not found' }); 
+        }
+        res.status(500).send ('Server error');
+    }
+});
+
 module.exports = router;
