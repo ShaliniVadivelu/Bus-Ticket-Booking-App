@@ -88,6 +88,7 @@ router.put('/createBus',[authOwner,
 
 } catch (err) {
         console.error(err.message);
+
         res.status(500).send('Server Error');
     }
 });
@@ -99,9 +100,12 @@ router.put('/createBus',[authOwner,
 router.get ('/',authOwner,authBasic, async (req,res) => {
     try  {
         const buses = await Bus.find().populate('owner', ['name', 'avatar']) ;
+
         res.json(buses);
+
     } catch (err) {
         console.error (err.message);
+
         res.status(500).send ('Server error');
 
     }
@@ -114,11 +118,15 @@ router.get ('/',authOwner,authBasic, async (req,res) => {
 router.get ('/owner/:owner_id',authOwner, async (req,res) => {
     try  {
         const bus = await Bus.find({ owner: req.params.owner_id }).populate('owner', ['name', 'avatar'] );
+
         if (!bus)
             return res.status(400).json({msg : 'Bus not found' });
+
         res.json(bus);
+
     } catch (err) {
         console.error (err.message);
+
         if(err.kind == 'ObjectId') {
             return res.status(400).json({msg : 'Bus not found' }); 
         }
@@ -126,9 +134,10 @@ router.get ('/owner/:owner_id',authOwner, async (req,res) => {
     }
 });
 
-// @route     GET api/owner/:id/bus/:bus_id
+// @route     GET api/bus/:id
 // @desc      Get bus by bus ID
 // @access    Private
+
 router.get('/:id',authOwner,authBasic, async(req, res) => {
     try {
         const bus =  await Bus.findById(req.params.id);
@@ -138,9 +147,9 @@ router.get('/:id',authOwner,authBasic, async(req, res) => {
             return res.status(404).json({ msg: 'Bus not found'});
         }
 
-        
     } catch (err) {
         console.error(err.message);
+
         if(err.kind == 'ObjectId') {
             return res.status(404).json({ msg: 'Bus not found'});
         }
@@ -149,5 +158,30 @@ router.get('/:id',authOwner,authBasic, async(req, res) => {
 }
 });
 
+// @route     DELETE api/bus/:id
+// @desc      Delete bus by bus ID
+// @access    Private
+
+router.delete('/:id',authOwner,authBasic, async(req, res) => {
+    try {
+        const bus =  await Bus.findById(req.params.id);
+
+        if(!bus) {
+            return res.status(404).json({ msg: 'Bus not found'});
+        }
+        
+        if(bus.owner.toString() !==req.owner.id) {
+            return res.status(401).json({'msg' : 'Owner not authorised'});
+        }
+
+        await bus.remove();
+
+        res.json({ msg: 'Bus got Deleted'});
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+}
+});
 
 module.exports = router;
