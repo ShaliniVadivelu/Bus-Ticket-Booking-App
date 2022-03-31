@@ -11,19 +11,37 @@ const bookingSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Bus'
     },
-    totalPrice: {
-      type: String
+    startCity: {
+      type: String,
+      required: true
+    },
+    destination: {
+      type: String,
+      required: true
     },
     numPassengers: {
       type: Number,
-      default: 1
+      default: 1,
+      required: true
+    },
+    seatNumber: {
+      type: Number,
+      required: true,
+    },
+    departureDate: {
+      type: Date,
+      required: true
+    },
+    totalPrice: {
+      type: String
     },
     bookingStatus: {
       type: String,
       enum: ["BOOKED", "CANCELLED"]
     },
     createdTime: {
-      type: String
+      type: Date,
+      default: Date.now
     }
 });
 
