@@ -3,7 +3,7 @@ const router = express.Router();
 const {check, validationResult, checkSchema} = require('express-validator');
 
 const authOwner= require('../../middleware/auth');
-const authRole= require('../../middleware/auth');
+const authBasic= require('../../middleware/auth');
 const Owner = require('../../models/Owner');
 const Bus = require('../../models/Bus');
 
@@ -11,7 +11,7 @@ const Bus = require('../../models/Bus');
 // @desc      Creating new bus and its details
 // @access    Private
 
-router.put('/createBus',[authRole,authOwner,
+router.put('/createBus',[authOwner,
     [
     check('companyName', 'Company name is required').not().isEmpty(),
     check('busType', 'Bus type is required').not().isEmpty(),
@@ -96,7 +96,7 @@ router.put('/createBus',[authRole,authOwner,
 // @desc      Get all bus details
 // @access    Public 
 
-router.get ('/', async (req,res) => {
+router.get ('/',authOwner,authBasic, async (req,res) => {
     try  {
         const buses = await Bus.find().populate('owner', ['name', 'avatar']) ;
         res.json(buses);
@@ -111,7 +111,7 @@ router.get ('/', async (req,res) => {
 // @desc      Get all bus details for a paritcular owner ID
 // @access    Public
 
-router.get ('/owner/:owner_id', async (req,res) => {
+router.get ('/owner/:owner_id',authOwner, async (req,res) => {
     try  {
         const bus = await Bus.find({ owner: req.params.owner_id }).populate('owner', ['name', 'avatar'] );
         if (!bus)
@@ -125,5 +125,29 @@ router.get ('/owner/:owner_id', async (req,res) => {
         res.status(500).send ('Server error');
     }
 });
+
+// @route     GET api/owner/:id/bus/:bus_id
+// @desc      Get bus by bus ID
+// @access    Private
+router.get('/:id',authOwner,authBasic, async(req, res) => {
+    try {
+        const bus =  await Bus.findById(req.params.id);
+        res.json(bus);
+
+        if(!bus) {
+            return res.status(404).json({ msg: 'Bus not found'});
+        }
+
+        
+    } catch (err) {
+        console.error(err.message);
+        if(err.kind == 'ObjectId') {
+            return res.status(404).json({ msg: 'Bus not found'});
+        }
+
+        res.status(500).send('Server Error');
+}
+});
+
 
 module.exports = router;
