@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const ROLE = require ('../config/data');
+const {ROLE} = require ('../config/data');
 
-module.exports = function authBasic (req, res, next) {
+const authBasic = 
+    function (req, res, next) {
 
     const token = req.header('x-auth-token');
 
@@ -12,16 +13,17 @@ module.exports = function authBasic (req, res, next) {
 
     try {
         const decoded = jwt.verify(token, config.get('jwtSecret'));
- 
+        console.log(decoded);
         req.user = decoded.user;
-
+    
         next();
     } catch (err) {
         res.status(401).json( { msg: 'Token is not valid'});
     }
 };
 
-module.exports = function authOwner (req, res, next) {
+const authOwner =
+ function  (req, res, next) {
 
     const token = req.header('x-auth-token');
 
@@ -39,13 +41,6 @@ module.exports = function authOwner (req, res, next) {
     }
 };
 
-// module.exports = function authRole (role) {
-//     return (req, res, next) => {
-//       if (ROLE.ADMIN !== role) {
-//         res.status(401)
-//         return res.send('Not allowed')
-//       }
-//       next()
-//     }
-//   };
+module.exports = { authBasic: authBasic, authOwner: authOwner };
+
 
