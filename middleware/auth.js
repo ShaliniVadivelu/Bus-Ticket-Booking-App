@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const {ROLE} = require ('../config/data');
 
 const authBasic = 
     function (req, res, next) {
@@ -13,7 +12,7 @@ const authBasic =
 
     try {
         const decoded = jwt.verify(token, config.get('jwtSecret'));
-        console.log(decoded);
+    
         req.user = decoded.user;
     
         next();
@@ -33,7 +32,7 @@ const authOwner =
     
     try {
         const decoded = jwt.verify(token, config.get('jwtSecret'));
- 
+        console.log(decoded);
         req.owner = decoded.owner;
         next();
     } catch (err) {
