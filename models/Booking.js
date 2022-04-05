@@ -25,7 +25,7 @@ const bookingSchema = new Schema(
       required: true
     },
     seatNumber: {
-      type: Number,
+      type: [Number],
       required: true,
     },
     departureDate: {
