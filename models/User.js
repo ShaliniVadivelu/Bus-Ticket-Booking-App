@@ -8,14 +8,14 @@ const userSchema = new Schema(
       required: true,
       maxlength: 30
     },
+    email: {
+      type: String,
+      required: true
+    },
     role: {
       type: String,
       required: true,
       ref: 'data'
-    },
-    email: {
-      type: String,
-      required: true
     },
     dob: {
       type: Date,
