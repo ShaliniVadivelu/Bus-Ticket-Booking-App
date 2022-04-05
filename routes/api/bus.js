@@ -2,16 +2,14 @@ const express = require('express');
 const router = express.Router();
 const {check, validationResult, checkSchema} = require('express-validator');
 
-const authOwner= require('../../middleware/auth');
-const authBasic= require('../../middleware/auth');
-const Owner = require('../../models/Owner');
+const auth= require('../../middleware/auth');
 const Bus = require('../../models/Bus');
 
 // @route     POST api/bus/createBus
-// @desc      Creating new bus and its details
+// @desc      Creating new /edit bus
 // @access    Private
 
-router.put('/createBus',[authOwner,
+router.put('/createBus',[auth.authOwner,
     [
     check('companyName', 'Company name is required').not().isEmpty(),
     check('busType', 'Bus type is required').not().isEmpty(),
@@ -26,7 +24,7 @@ router.put('/createBus',[authOwner,
     ]
 ], 
  async (req, res) => {
-
+    
     const errors = validationResult(req);
 
     if(!errors.isEmpty())
@@ -49,7 +47,7 @@ router.put('/createBus',[authOwner,
     }=req.body;
 
     const busFields = {};
-    
+
     busFields.owner =  req.owner.id;
     if(companyName) busFields.companyName =  companyName;
     if(busType) busFields.busType =  busType;
@@ -93,11 +91,11 @@ router.put('/createBus',[authOwner,
     }
 });
 
-// @route     GET api
+// @route     GET api/bus
 // @desc      Get all bus details
 // @access    Public 
 
-router.get ('/',authOwner,authBasic, async (req,res) => {
+router.get ('/', async (req,res) => {
     try  {
         const buses = await Bus.find().populate('owner', ['name', 'avatar']) ;
 
@@ -112,48 +110,39 @@ router.get ('/',authOwner,authBasic, async (req,res) => {
 });
 
 // @route     GET api/bus/owner/:owner_id
-// @desc      Get all bus details for a paritcular owner ID
-// @access    Public
+// @desc      Get all bus details for a paritcular owner using owner ID
+// @access    Private
 
-router.get ('/owner/:owner_id',authOwner, async (req,res) => {
+router.get ('/owner/:owner_id',auth.authOwner, async (req,res) => {
     try  {
         const bus = await Bus.find({ owner: req.params.owner_id }).populate('owner', ['name', 'avatar'] );
 
-        if (!bus)
-            return res.status(400).json({msg : 'Bus not found' });
-
-        res.json(bus);
+        if(!bus) {
+            return res.status(404).json({ msg: 'No BUS!'});
+        }
+        res.send(bus);
 
     } catch (err) {
         console.error (err.message);
-
-        if(err.kind == 'ObjectId') {
-            return res.status(400).json({msg : 'Bus not found' }); 
-        }
         res.status(500).send ('Server error');
     }
 });
 
 // @route     GET api/bus/:id
 // @desc      Get bus by bus ID
-// @access    Private
+// @access    Public
 
-router.get('/:id',authOwner,authBasic, async(req, res) => {
+router.get('/:id', async(req, res) => {
     try {
         const bus =  await Bus.findById(req.params.id);
-        res.json(bus);
 
         if(!bus) {
             return res.status(404).json({ msg: 'Bus not found'});
         }
+        res.json(bus);
 
     } catch (err) {
         console.error(err.message);
-
-        if(err.kind == 'ObjectId') {
-            return res.status(404).json({ msg: 'Bus not found'});
-        }
-
         res.status(500).send('Server Error');
 }
 });
@@ -162,7 +151,7 @@ router.get('/:id',authOwner,authBasic, async(req, res) => {
 // @desc      Delete bus by bus ID
 // @access    Private
 
-router.delete('/:id',authOwner,authBasic, async(req, res) => {
+router.delete('/:id',auth.authOwner, async(req, res) => {
     try {
         const bus =  await Bus.findById(req.params.id);
 
@@ -184,4 +173,14 @@ router.delete('/:id',authOwner,authBasic, async(req, res) => {
 }
 });
 
+// @route     PUT api/bus/:id/seat
+// @desc      arrange seat by bus ID
+// @access    Private
+
+router.put('/bus/:id/seat', [auth.authOwner,
+    
+
+], async(req,res) => {
+    
+});
 module.exports = router;
