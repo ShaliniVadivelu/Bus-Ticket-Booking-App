@@ -7,6 +7,7 @@ const config = require('config');
  
 const {check, validationResult} = require('express-validator');
 const User = require('../../models/User');
+const Booking = require('../../models/Booking');
 const {ROLE} = require ('../../config/data');
 
 // @route     POST api/users
@@ -151,7 +152,7 @@ async (req, res) => {
 router.get('/me/:_id', async(req, res) => {
     try {   
         const user = await User.findOne({user: req.params._id})
-                               .populate('bookings' )
+                               .populate('bookings',['busNumber'] )
                                .select('-password');
 
         if (!user)
