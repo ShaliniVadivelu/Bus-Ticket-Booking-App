@@ -4,6 +4,7 @@ const {check, validationResult, checkSchema} = require('express-validator');
 
 const auth= require('../../middleware/auth');
 const Bus = require('../../models/Bus');
+const Booking = require('../../models/Booking');
 
 // @route     POST api/bus/createBus
 // @desc      Creating new /edit bus
@@ -20,6 +21,7 @@ router.put('/createBus',[auth.authOwner,
     check('availableSeats', 'Please include the available seats').not().isEmpty().isNumeric(),
     check('pricePerSeat', 'Please include the price of per seat').not().isEmpty().isNumeric(),
     check('departureDate','Departure date is required').not().isEmpty(),
+    check('departureTime','Departure time is required').not().isEmpty(),
     check('duration','Duration is required').not().isEmpty()
     ]
 ], 
@@ -97,7 +99,7 @@ router.put('/createBus',[auth.authOwner,
 
 router.get ('/', async (req,res) => {
     try  {
-        const buses = await Bus.find().populate('owner', ['name', 'avatar']) ;
+        const buses = await Bus.find();
 
         res.json(buses);
 
@@ -115,7 +117,7 @@ router.get ('/', async (req,res) => {
 
 router.get ('/owner/:owner_id',auth.authOwner, async (req,res) => {
     try  {
-        const bus = await Bus.find({ owner: req.params.owner_id }).populate('owner', ['name', 'avatar'] );
+        const bus = await Bus.find({ owner: req.params.owner_id });
 
         if(!bus) {
             return res.status(404).json({ msg: 'No BUS!'});
@@ -173,14 +175,48 @@ router.delete('/:id',auth.authOwner, async(req, res) => {
 }
 });
 
-// @route     PUT api/bus/:id/seat
-// @desc      arrange seat by bus ID
-// @access    Private
+// @route     GET api/booking/searchBus
+// @desc      search the bus with 3 fields
+// @access    Public
 
-router.put('/bus/:id/seat', [auth.authOwner,
-    
+router.get ('/booking/searchBus', [auth.authBasic,
+    [
+    check('startCity', 'StartCity is required').not().isEmpty(),
+    check('destination', 'Destination is required').not().isEmpty(),
+    check('departureDate', "Departure date is required").not().isEmpty()
+    ]
+], async (req, res)=>{
 
-], async(req,res) => {
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty())
+    {
+        return res.status(400).json({errors: errors.array()});
+    }
+
+    try {
+        // $and is to combine both fields for filtering
+    const bus = await Bus.find({
+        $and: [
+            {
+                $and: [
+                    {startCity: req.body.startCity}, 
+                    {destination: req.body.destination}
+                ]
+            },
+                {departureDate: req.body.departureDate}
+            ]
+    });
+
+    if(!bus) {
+        return res.status(400).json({error: [{msg :'No bus found!'}]});
+       }
+    res.json(bus);
     
+    } catch(err) {
+        console.error (err.message);
+        res.status(500).send ('Server error');
+    }
 });
+
 module.exports = router;
