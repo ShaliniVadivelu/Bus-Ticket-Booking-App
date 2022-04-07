@@ -27,6 +27,9 @@ const ownerSchema = new Schema(
       required: true,
       ref: 'data'
     },
+    avatar: {
+      type: String
+    },
     password: {
       type: String,
       required: true
