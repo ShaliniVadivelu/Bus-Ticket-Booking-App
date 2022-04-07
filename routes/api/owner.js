@@ -135,15 +135,13 @@ async (req, res) => {
     }
 });
 
-// @route     GET api/user/me
+// @route     GET api/owner/me
 // @desc      Get current owner profile
 // @access    Private
 
 router.get('/me/:_id', async(req, res) => {
     try {   
-        const owner = await Owner.findOne({owner: req.params._id})
-                                 .populate('buses',['busNumber, startCity, destiantion'] )
-                                 .select('-password');
+        const owner = await Owner.findOne({owner: req.params._id}).populate('buses').select('-password');
 
         if (!owner)
         {
