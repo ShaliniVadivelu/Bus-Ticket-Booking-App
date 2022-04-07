@@ -11,25 +11,9 @@ const bookingSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'Bus'
     },
-    startCity: {
-      type: String,
-      required: true
-    },
-    destination: {
-      type: String,
-      required: true
-    },
     numPassengers: {
       type: Number,
       default: 1,
-      required: true
-    },
-    seatNumber: {
-      type: [Number],
-      required: true,
-    },
-    departureDate: {
-      type: Date,
       required: true
     },
     totalPrice: {
