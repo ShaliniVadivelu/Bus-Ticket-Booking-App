@@ -50,8 +50,8 @@ const BusSchema = new Schema({
         required: true
     },
     departureTime: {
-        type: Date,
-        maxlength: 32
+        type: String,
+        required: true
     },
     duration: {
         type: String,
