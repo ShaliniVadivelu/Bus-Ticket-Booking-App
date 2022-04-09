@@ -34,6 +34,7 @@ router.post ('/:bus_id/bookTicket',[auth.authBasic,
     const ticketFields = {};
 
     ticketFields.bus = bookBus;
+    ticketFields.user = req.user.id;
     const msg = {};
 
     if (bookBus.busNumber) msg.busNumber=bookBus.busNumber; 
