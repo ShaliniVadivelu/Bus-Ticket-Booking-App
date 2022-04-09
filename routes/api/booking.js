@@ -24,8 +24,8 @@ router.post ('/:bus_id/bookTicket',[auth.authBasic,
 
     const {numPassengers} = req.body;
     
-    let bookBus = await Bus.findOne({bus: req.params.bus_id}).select('busNumber startCity destination pricePerSeat');
-    
+    let bookBus = await Bus.findById(req.params.bus_id).select('busNumber startCity destination pricePerSeat availableSeats');
+
     if(numPassengers > bookBus.availableSeats)
     {
         return res.status(401).json({msg: 'given no.of seats are greater than available seats'});
@@ -66,11 +66,11 @@ router.post ('/:bus_id/bookTicket',[auth.authBasic,
     
 });
 
-// @route     POST api/bus/view ticket
+// @route     POST api/booking/viewAllTicket
 // @desc      View all the user booked ticket details
 // @access    Private
 
-router.get('/', auth.authOwner, async(req,res) => {
+router.get('/viewAllTicket', auth.authOwner, async(req,res) => {
 
     try  {
         const tickets = await Booking.find();
@@ -85,15 +85,14 @@ router.get('/', auth.authOwner, async(req,res) => {
     }
 });
 
-// @route     POST api/bus/view ticket
+// @route     POST api/bus/viewTicket
 // @desc      View the booked ticket details by the user
 // @access    Private
 
-router.get('/', auth.authBasic, async(req,res) => {
+router.get('/viewTicket', auth.authBasic, async(req,res) => {
 
     try  {
         const tickets = await Booking.find();
-        res.json({msg: 'Your booked details'});
         res.json(tickets);
 
     } catch (err) {
