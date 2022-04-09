@@ -85,7 +85,7 @@ router.get('/viewAllTicket', auth.authOwner, async(req,res) => {
     }
 });
 
-// @route     POST api/bus/viewTicket
+// @route     POST api/booking/viewTicket
 // @desc      View the booked ticket details by the user
 // @access    Private
 
@@ -100,6 +100,31 @@ router.get('/viewTicket', auth.authBasic, async(req,res) => {
 
         res.status(500).send ('Server error');
 
+    }
+});
+
+// @route     POST api/booking/canelTicket/:id
+// @desc      Cancel the ticket by the User
+// @access    Private
+
+router.delete('/cancelTicket/:id', auth.authBasic, async(req,res) => {
+
+    let count = await Booking.estimatedDocumentCount();
+
+    try {
+        if (count>=1)
+        {
+            console.log(count +'and' + req.params.id)
+            ticket=await Booking.findByIdAndRemove(req.params.id)
+      
+            res.status(200).json({message:'your tikcet is cancelled successfully'});
+        }
+
+    }catch(err)
+    {
+        console.error (err.message);
+
+        res.status(500).send ('Server error');
     }
 });
 
