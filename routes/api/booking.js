@@ -67,7 +67,7 @@ router.post ('/:bus_id/bookTicket',[auth.authBasic,
 });
 
 // @route     POST api/bus/view ticket
-// @desc      View the booked ticket details
+// @desc      View all the user booked ticket details
 // @access    Private
 
 router.get('/', auth.authOwner, async(req,res) => {
@@ -75,6 +75,25 @@ router.get('/', auth.authOwner, async(req,res) => {
     try  {
         const tickets = await Booking.find();
 
+        res.json(tickets);
+
+    } catch (err) {
+        console.error (err.message);
+
+        res.status(500).send ('Server error');
+
+    }
+});
+
+// @route     POST api/bus/view ticket
+// @desc      View the booked ticket details by the user
+// @access    Private
+
+router.get('/', auth.authBasic, async(req,res) => {
+
+    try  {
+        const tickets = await Booking.find();
+        res.json({msg: 'Your booked details'});
         res.json(tickets);
 
     } catch (err) {
