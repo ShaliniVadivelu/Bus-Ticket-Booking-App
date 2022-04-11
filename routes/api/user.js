@@ -151,7 +151,7 @@ async (req, res) => {
 
 router.get('/me/:_id', async(req, res) => {
     try {   
-        const user = await User.findOne({user: req.params._id})
+        const user = await User.findById(req.params._id)
                                .populate('bookings',['busNumber'] )
                                .select('-password');
 
