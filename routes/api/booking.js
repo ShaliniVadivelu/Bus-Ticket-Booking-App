@@ -70,10 +70,10 @@ router.post ('/:bus_id/bookTicket',[auth.authBasic,
 // @desc      View all the user booked ticket details
 // @access    Private
 
-router.get('/viewAllTicket', auth.authOwner, async(req,res) => {
+router.get('/viewAllTicket/:bus_id', auth.authOwner, async(req,res) => {
 
     try  {
-        const tickets = await Booking.find();
+        const tickets = await Booking.find({bus: req.params.bus_id});
 
         res.json(tickets);
 
@@ -92,7 +92,7 @@ router.get('/viewAllTicket', auth.authOwner, async(req,res) => {
 router.get('/viewTicket', auth.authBasic, async(req,res) => {
 
     try  {
-        const tickets = await Booking.find();
+        const tickets = await Booking.find({user: req.user.id});
         res.json(tickets);
 
     } catch (err) {
