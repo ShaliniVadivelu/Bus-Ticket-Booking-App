@@ -1,38 +1,148 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+/*Entire page */
+body {
+     font-family: cursive;
+    font-size: 1rem;
+    line-height: 1.6;
+    background-color: #fff;
+    color: #333;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Landing page */
+  .landing {
+    position: relative;
+    background: url('./img/mainPic.jpg') no-repeat center center/cover;
+    height: 100vh;
   }
-  to {
-    transform: rotate(360deg);
+
+/*main content */
+  .landing-inner {
+    color: rgb(61, 5, 5);
+    height: 100%;
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
+
+  .x-large {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    position: absolute;
+    right: 2px;
+    width: 700px;
+    bottom: 420px;
+    height: 120px;
+  }
+
+  .lead {
+    color: rgb(7, 10, 9);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    position: absolute;
+    right: 100px;
+    width: 500px;
+    bottom: 250px;
+    height: 120px;
+  }
+  .buttons {
+    float: right;
+  }
+  .btn {
+    display: inline-block;
+    padding: 0.3rem 1.1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    outline: none;
+    font-size: 1rem;
+    border: none;
+    transition: opacity 0.2s ease-in;
+    position: relative;
+    left: 410px;
+    bottom: -100px;
+  }
+
+.btn-primary {
+  background: rgb(8, 8, 8);
+  color: #fff;
 }
+
+.btn-light {
+  background: rgb(8, 8, 8);
+  color: rgb(72, 232, 194);
+}
+
+.btn:hover {
+  opacity: 0.8;
+  color: blanchedalmond;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    position: fixed;
+    z-index: 1;
+    width: 98%;
+    height: 4rem;
+    top: 0;
+    border-bottom: solid 1px var(--primary-color);
+    opacity: 0.9;
+  }
+  
+  .navbar ul {
+    display: flex;
+    padding-right: 2.5rem;
+    font-size: 1rem;
+  }
+  
+  .navbar a {
+    color: #fff;
+    padding: 0.45rem;
+    margin: 0 0.25rem;
+  }
+  
+  .navbar a:hover {
+    color:rgb(7, 8, 8);
+  }
+  
+  .navbar .welcome span {
+    margin-right: 0.6rem;
+  }
+
+  .bg-dark {
+  background: rgb(74, 34, 34);
+  color: #fff;
+}
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
+  }
+  
+  img {
+    width: 100%;
+  }
+
+  .large {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  
+
+  
+  
+  
+  
+  
+  
+  
