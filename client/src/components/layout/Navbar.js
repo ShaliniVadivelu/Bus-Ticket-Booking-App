@@ -1,16 +1,32 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const Navbar = () => {
     return (
-        <nav className = 'navbar bg-dark'>
+        <nav className = "navbar bg-dark">
             <h1>
-                <a href ='index.html'>
-                <i class="fas-duotone fa-bus"></i> Happy Bus!
-                </a>
+                <Link to ="/">
+                <i class="fa fa-bus"></i> Happy Bus!
+                </Link>
             </h1>
             <ul>
-                <li><a href="register.html">Register</a></li>
-                <li><a href="login.html">Login</a></li>
+                <div className="dropdown">
+                <button className="dropbtn"> Register <i class="fa fa-caret-down"></i> </button>
+
+                 <div className="dropdown-content">
+                    <Link to="/userregister">User</Link>
+                    <Link to="/ownerregister">Owner</Link>
+                </div> 
+                </div>
+                
+                 <div className="dropdown">
+                <button class="dropbtn"> Login <i class="fa fa-caret-down"></i> </button>
+
+                 <div className="dropdown-content">
+                    <Link to="/userlogin">User</Link>
+                    <Link to="/userregister">Owner</Link>
+                </div> 
+                </div>
             </ul>
 
         </nav>
