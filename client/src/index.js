@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
+  //Strictmode is used to highlight the possible problems on the applications , also used to detect various erros & warning during development phase.
   <React.StrictMode>
     <App />
   </React.StrictMode>,
