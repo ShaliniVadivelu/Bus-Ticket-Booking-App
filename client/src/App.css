@@ -52,21 +52,21 @@ body {
 }
 
 .large {
-  color:#190507;
+  color:rgb(146, 34, 12);
   font-weight: bold;
   font-size: 3rem;
   line-height: 1.4;
   margin-bottom: 1rem; 
-  animation: animate 2s linear infinite;
+  animation: animate 3s linear infinite;
 }
 
 @keyframes animate{
-  to {color:rgb(189, 44, 11)};
+  to {color:rgb(8, 228, 240)};
   0%{
-    opacity: 100;
+    opacity: 50;
   }
   100%{
-    opacity: 100;
+    opacity: 20;
   }
 }
   
