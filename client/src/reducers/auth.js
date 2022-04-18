@@ -2,7 +2,7 @@
 import {
     REGISTER_SUCCESS,
     REGISTER_FAIL
-} from '../../actions/types';
+} from '../actions/types';
 
 //here initial state is a object
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
     user: null
 }
 
-export default function(state=initialState, state) {
+export default function(state=initialState, action) {
     const {type, payload} =action;
 
     switch(type) {
