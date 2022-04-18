@@ -4,11 +4,12 @@ import {Link} from 'react-router-dom';
 //The connect() function connects a React component to a Redux store.
 import {connect} from 'react-redux';
 import { setAlert } from '../../actions/alert';
+import { userRegister } from '../../actions/auth';
 import PropTypes from 'prop-types';
 
 // useState is a hook which allows us to have a state variable in functional components and it returns a pair: one is a current state value and a function that lets us update it.
 
-const UserRegister = ({setAlert}) => {
+const UserRegister = ({setAlert, userRegister}) => {
 
 // formData is a current state(which has field values) and setFormData is a fn used to udpate the state values
 const [formData, setFormData] = useState({
@@ -37,7 +38,7 @@ const [formData, setFormData] = useState({
          }
          else
          {
-            console.log(formData);
+            userRegister({name,email,role,phone,gender,dob,text,password});
          }
      }
 
@@ -113,7 +114,7 @@ const [formData, setFormData] = useState({
                 <div className='form-group'>
                     <input 
                         type='gender' 
-                        placeholder='DOB' 
+                        placeholder='gender' 
                         name='gender' 
                         value={gender}
                         onChange={(e => onChange(e))} 
@@ -173,7 +174,12 @@ const [formData, setFormData] = useState({
 };
 
 UserRegister.propTypes = {
-    setAlert: PropTypes.func.isRequired
+    setAlert: PropTypes.func.isRequired,
+    userRegister: PropTypes.func.isRequired
 }
 
-export default connect(null, {setAlert})(UserRegister);
+export default connect(
+    null,
+    {setAlert, userRegister}
+    )
+    (UserRegister);
