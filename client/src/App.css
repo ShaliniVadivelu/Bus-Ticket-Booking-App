@@ -3,7 +3,7 @@
   --primary-color: #17a2b8;
   --dark-color: #343a40;
   --light-color: #f4f4f4;
-  --danger-color: #dc3545;
+  --danger-color: #ce100c;
   --success-color: #28a745;
 }
 /*image fixing to backgroung*/
@@ -64,13 +64,6 @@ body {
     opacity: 100;
   }
 }
-  
-  .lead {
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-  }
-
   
   .buttons {
     float: right;
@@ -140,17 +133,6 @@ body {
   background: rgb(58, 56, 56);
   }
 
-  .BgPic {
-    position: relative;
-  height: 100vh;
-  background-image: url('./img/mainPic.jpg') ;
-  background-repeat: no-repeat;
-  background-position:center center;
-  background-size:cover;
-  /* filter: blur(8px);
-  -webkit-filter: blur(8px); */
-  }
-
   a {
     color: var(--primary-color);
     text-decoration: none;
@@ -163,6 +145,28 @@ body {
   img {
     width: 100%;
   }
+
+  .largee {
+    position: relative;
+    bottom: -25px;
+    left: -170px;
+    font-size: 2.2rem;
+    line-height: 2.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .text-primary {
+  color: var(--primary-color);
+}
+
+.lead {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  bottom: 59px;
+  left: 80px;
+}
 
   .dropdown {
     float: left;
@@ -206,4 +210,77 @@ body {
   }
   .dropdown-content a:hover {
   background-color: rgb(20, 20, 13);
+}
+.alert-danger {
+  background: var(--danger-color);
+  color: rgb(215, 10, 10);
+}
+.alert {
+  bottom: 150px;
+  padding: 0.8rem;
+  margin: 0.5rem 0;
+  opacity: 01;
+  background: var(--light-color);
+}
+
+.BgPic {
+position: static;
+height: 100vh;
+background-image: url('./img/mainPic.jpg') ;
+background-repeat: no-repeat;
+background-position:center center;
+background-size:cover;
+background-attachment: fixed;
+filter: blur(8px);
+-webkit-filter: blur(8px);
+}
+.bg-text {
+  background-color: rgb(188, 181, 181); /*Fallback color*/
+  background-color: rgba(17, 17, 17, 0.4); /*Black w/opacity/see-through */
+  color: white;
+  font-weight:lighter;
+  border: 2px snow #f1f1f1;
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  padding: 20px;
+  text-align: center; 
+}
+ 
+.form .form-group {
+  margin: 0.7rem 0;
+}
+ 
+.form .form-text {
+  display: block;
+  margin-top: 0.3rem;
+  color: rgb(253, 248, 248);
+} 
+.form input[type='text'],
+.form input[type='email'],
+.form input[type='password'],
+.form input[type='role'],
+.form input[type='tel'],
+.form input[type='date'],
+.form input[type='gender'],
+.form textarea {
+  display:block;
+  width: 60%;
+  padding: 0.2rem;
+  font-size: 1rem;
+  border: 1px solid rgb(91, 9, 9); 
+}
+.form .form-group {
+  position: relative;
+  top:-20px;
+  left:-80px;
+  left:150px;
+
+}
+
+.form input[type='submit'],
+button {
+  font-family: cursive
 }
