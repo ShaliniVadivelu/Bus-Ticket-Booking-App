@@ -17,9 +17,10 @@ body {
      font-family: cursive;
     font-size: 1rem;
     line-height: 1.6;
-    background-color: #fff;
+    /* background-color: #fff; */
     color: #333;
   }
+
 /* Landing Page */
 .landing {
   position: relative;
@@ -228,16 +229,19 @@ body {
   .dropdown-content a:hover {
   background-color: rgb(20, 20, 13);
 }
-.alert-danger {
-  background: var(--danger-color);
-  color: rgb(215, 10, 10);
-}
 .alert {
-  bottom: 150px;
+  background: greenyellow;
+  font-weight: bold;
+}
+.alerts {
+  background: var(--danger-color);
+  position: relative;
+  left: 20px;
+  bottom: -80px;
+  width: 360px;
   padding: 0.8rem;
-  margin: 0.5rem 0;
-  opacity: 01;
-  background: var(--light-color);
+  margin: 0.5rem;
+  opacity: 1.2 ;
 }
 
 .BgPic {
@@ -248,8 +252,8 @@ background-repeat: no-repeat;
 background-position:center center;
 background-size:cover;
 background-attachment: fixed;
-filter: blur(8px);
--webkit-filter: blur(8px);
+/* filter: blur(8px); */
+/* -webkit-filter: blur(8px); */
 }
 .bg-text {
   background-color: rgb(188, 181, 181); /*Fallback color*/
