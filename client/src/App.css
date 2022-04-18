@@ -229,19 +229,19 @@ body {
   .dropdown-content a:hover {
   background-color: rgb(20, 20, 13);
 }
-.alert {
-  background: greenyellow;
+.alert-danger {
+  background: var(--danger-color);
+  color: #f4f4f4;
   font-weight: bold;
 }
 .alerts {
-  background: var(--danger-color);
   position: relative;
   left: 20px;
   bottom: -80px;
-  width: 360px;
+  width: 350px;
   padding: 0.8rem;
   margin: 0.5rem;
-  opacity: 1.2 ;
+  opacity: 0.6 ;
 }
 
 .BgPic {
