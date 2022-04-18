@@ -24,7 +24,7 @@ const Navbar = () => {
 
                  <div className="dropdown-content">
                     <Link to="/userlogin">User</Link>
-                    <Link to="/userregister">Owner</Link>
+                    <Link to="/ownerlogin">Owner</Link>
                 </div> 
                 </div>
             </ul>
