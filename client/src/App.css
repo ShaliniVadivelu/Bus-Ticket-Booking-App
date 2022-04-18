@@ -40,10 +40,15 @@ body {
 }
 
 .x-large {
-  font-weight: bold;
+  color: black;
   font-size: 3rem;
-  line-height: 1.4;
-  margin-bottom: 2rem; 
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  position: absolute;
+  right: 2px;
+  width: 700px;
+  bottom: 420px;
+  height: 120px;
 }
 
 .large {
@@ -69,17 +74,18 @@ body {
     float: right;
   }
 
-  .btn {
+  .landing .btn {
     display: inline-block;
-    background: var(--light-color);
-    color: #333;
-    padding: 0.4rem 1.3rem;
+    padding: 0.3rem 1.1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    outline: none;
     font-size: 1rem;
     border: none;
-    cursor: pointer;
-    margin-right: 0.5rem;
     transition: opacity 0.2s ease-in;
-    outline: none;
+    position: relative;
+    left: 410px;
+    bottom: -120px;
   }
 
 .btn-primary {
@@ -159,6 +165,17 @@ body {
   color: var(--primary-color);
 }
 
+.mainlead {
+  color: rgb(7, 10, 9);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    position: absolute;
+    right: 100px;
+    width: 500px;
+    bottom: 220px;
+    height: 120px;
+}
 .lead {
   font-weight: bold;
   font-size: 1.5rem;
