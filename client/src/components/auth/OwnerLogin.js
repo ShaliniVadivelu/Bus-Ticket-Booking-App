@@ -2,11 +2,13 @@ import React, { Fragment } from 'react';
 
 const OwnerRegister = () => {
     return (
-        <section className='BgPic'>
             <Fragment>
-                <h1 className="large text-primary">Sign In</h1>
+                <div className='BgPic'></div>
+                <div className='bg-text'>
+                <h1 className="largee text-primary">Sign In</h1>
+                </div>
             </Fragment>
-        </section>
+        
     )
 };
 
