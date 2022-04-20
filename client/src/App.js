@@ -10,6 +10,7 @@ import OwnerRegister from './components/auth/OwnerRegister';
 import OwnerLogin from './components/auth/OwnerLogin';
 import Alert from './components/layout/Alert';
 import UserDashboard from './components/dashboard/UserDashboard';
+import OwnerDashboard from './components/dashboard/OwnerDashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
 //Redux
 //The provider component makes the Redux store available to any nested components that need to access the Redux store.
@@ -17,6 +18,7 @@ import { Provider, useStore } from 'react-redux';
 import store from './store';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser } from './actions/auth';
+import { loadOwner } from './actions/auth';
 
 import './App.css';
 
@@ -28,6 +30,7 @@ if(localStorage.token) {
 const App = () => {
   useEffect (() => {
     store.dispatch(loadUser());
+    store.dispatch(loadOwner());
   }, []);
 
   return (
@@ -43,7 +46,7 @@ const App = () => {
         <Route exact path='/ownerregister' component={OwnerRegister} />
         <Route exact path='/ownerlogin' component={OwnerLogin} />
         <PrivateRoute exact path='/userDashboard' component={UserDashboard} />
-        
+        <PrivateRoute exact path='/ownerDashboard' component={OwnerDashboard} />
         </Switch>
     </Fragment>
     </Router>
