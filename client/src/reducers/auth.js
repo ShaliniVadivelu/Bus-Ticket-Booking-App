@@ -3,6 +3,7 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
     USER_LOADED,
+    OWNER_LOADED,
     AUTH_ERROR,
     LOGIN_SUCCESS,
     LOGIN_FAIL
@@ -27,6 +28,13 @@ export default function(state=initialState, action) {
                 isAuthenticated: true,
                 loading: false,
                 user: payload
+            };
+        case OWNER_LOADED:
+            return {
+                ...state,
+                isAuthenticated: true,
+                loading: false,
+                owner: payload
             };
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
