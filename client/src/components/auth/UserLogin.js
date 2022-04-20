@@ -1,12 +1,12 @@
 import React, {Fragment, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {userLogin} from '../../actions/auth';
 
 // useState is a hook which allows us to have a state variable in functional components and it returns a pair: one is a current state value and a function that lets us update it.
 
-const UserLogin = ({userLogin}) => {
+const UserLogin = ({userLogin, isAuthenticated}) => {
     // formData is a state(which has field values) and setFormData is a fn used to udpate the state values
     const [formData, setFormData] = useState({
         email : '',
@@ -24,6 +24,10 @@ const UserLogin = ({userLogin}) => {
             userLogin(email,role,password);
      };
 
+     // Redirect if logged in 
+     if (isAuthenticated) {
+         return <Redirect to ='/userDashboard' />
+     }
     return (
         <Fragment> 
             <div className='BgPic'></div>
@@ -79,6 +83,11 @@ const UserLogin = ({userLogin}) => {
 };
 
 UserLogin.propTypes = {
-    userLogin : PropTypes.func.isRequired
+    userLogin : PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
 }
-export default connect(null, {userLogin}) (UserLogin);
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+export default connect(mapStateToProps, {userLogin}) (UserLogin);

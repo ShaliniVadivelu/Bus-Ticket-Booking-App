@@ -1,5 +1,5 @@
 import React, {Fragment, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 //The connect() function connects a React component to a Redux store.
 import {connect} from 'react-redux';
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 
 // useState is a hook which allows us to have a state variable in functional components and it returns a pair: one is a current state value and a function that lets us update it.
 
-const UserRegister = ({setAlert, userRegister}) => {
+const UserRegister = ({setAlert, userRegister, isAuthenticated}) => {
 
 // formData is a current state(which has field values) and setFormData is a fn used to udpate the state values
 const [formData, setFormData] = useState({
@@ -42,6 +42,10 @@ const [formData, setFormData] = useState({
          }
      }
 
+     // Redirect if logged in 
+     if (isAuthenticated) {
+        return <Redirect to ='/userDashboard' />
+    }
     return (
         
         <Fragment> 
@@ -175,11 +179,16 @@ const [formData, setFormData] = useState({
 
 UserRegister.propTypes = {
     setAlert: PropTypes.func.isRequired,
-    userRegister: PropTypes.func.isRequired
+    userRegister: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
 }
 
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+
 export default connect(
-    null,
+    mapStateToProps,
     {setAlert, userRegister}
     )
     (UserRegister);
