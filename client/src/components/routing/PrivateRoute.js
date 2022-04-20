@@ -1,5 +1,5 @@
 //when we loged out the account and go back to the page we can see the previous datas, but this should not happen. To avoid this we have create a private route
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,6 +9,7 @@ const PrivateRoute = ( { component : Component,
     auth: { isAuthenticated, loading},
     ...rest 
 }) => (
+    <Fragment>
     <Route 
         { ...rest} 
         render = { props=> 
@@ -19,6 +20,18 @@ const PrivateRoute = ( { component : Component,
                     )
         } 
     />
+
+    <Route 
+        { ...rest} 
+        render = { props=> 
+            !isAuthenticated && !loading ? (
+                <Redirect to='/ownerLogin' />
+                ) : (
+                    <Component {...props} />
+                    )
+        } 
+    />
+    </Fragment>
 );
 
 PrivateRoute.propTypes = {
