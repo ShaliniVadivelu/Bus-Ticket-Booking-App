@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 // BrowerserRouter is a parent component used to store all of the other components and keep the UI in sync with URL
 //Route is a conditionally shown component that renders some UI when its path matches the current URL.
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -11,16 +11,28 @@ import OwnerLogin from './components/auth/OwnerLogin';
 import Alert from './components/layout/Alert';
 //Redux
 //The provider component makes the Redux store available to any nested components that need to access the Redux store.
-import { Provider } from 'react-redux';
+import { Provider, useStore } from 'react-redux';
 import store from './store';
+import setAuthToken from './utils/setAuthToken';
+import { loadUser } from './actions/auth';
 
 import './App.css';
 
-const App = () => (
+
+if(localStorage.token) {
+  setAuthToken (localStorage.token);
+}
+
+const App = () => {
+  useEffect (() => {
+    store.dispatch(loadUser());
+  }, []);
+
+  return (
   <Provider store={store}>
     <Router>
     <Fragment>
-      <Navbar />   
+      <Navbar />  
       <Route exact path='/' component={Landing} />
         <Alert />
         <Switch>
@@ -32,7 +44,7 @@ const App = () => (
     </Fragment>
     </Router>
     </Provider>
-);
+)};
 export default App;
 
 //It is used to define and render component based on the specified path. It will accept components and render to define what should be rendered.
