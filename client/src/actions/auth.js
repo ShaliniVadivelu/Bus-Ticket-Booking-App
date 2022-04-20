@@ -117,14 +117,14 @@ export const loadOwner = () => async dispatch => {
 };
 
 //Register Owner
-export const ownerRegister = ({name,email,role,officeAddress,phone,password}) => async dispatch =>{
+export const ownerRegister = ({companyName,email,role,officeAddress,phone,password}) => async dispatch =>{
     const config = {
         headers:  {
             'Content-Type': 'application/json'
         }
     }
 
-    const body = JSON.stringify ({name,email,role,officeAddress,phone,password});
+    const body = JSON.stringify ({companyName,email,role,officeAddress,phone,password});
 
 try {
 
@@ -150,7 +150,7 @@ try {
 }
 };
 
-//Login User
+//Login owner
 export const ownerLogin = (email,role,password) => async dispatch =>{
     const config = {
         headers:  {
