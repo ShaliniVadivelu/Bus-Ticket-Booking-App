@@ -9,6 +9,8 @@ import UserLogin from './components/auth/UserLogin';
 import OwnerRegister from './components/auth/OwnerRegister';
 import OwnerLogin from './components/auth/OwnerLogin';
 import Alert from './components/layout/Alert';
+import UserDashboard from './components/dashboard/UserDashboard';
+import PrivateRoute from './components/routing/PrivateRoute';
 //Redux
 //The provider component makes the Redux store available to any nested components that need to access the Redux store.
 import { Provider, useStore } from 'react-redux';
@@ -40,6 +42,8 @@ const App = () => {
         <Route exact path='/userlogin' component={UserLogin} />
         <Route exact path='/ownerregister' component={OwnerRegister} />
         <Route exact path='/ownerlogin' component={OwnerLogin} />
+        <PrivateRoute exact path='/userDashboard' component={UserDashboard} />
+        
         </Switch>
     </Fragment>
     </Router>
