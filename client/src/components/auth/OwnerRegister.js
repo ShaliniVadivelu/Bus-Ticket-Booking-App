@@ -27,7 +27,7 @@ const OwnerRegister = ({setAlert, ownerRegister, isAuthenticated}) => {
         //e-> synthetic event
         e.preventDefault();
         if(password !== password2){
-           setAlert('Passwords do not match');
+           setAlert('Passwords do not match','danger');
         }
         else
         {
@@ -37,7 +37,7 @@ const OwnerRegister = ({setAlert, ownerRegister, isAuthenticated}) => {
 
      // Redirect if logged in 
      if (isAuthenticated) {
-        return <Redirect to ='/ownerDashboard' />
+        return <Redirect to ='/ownerDashboard'/>
     }
 
     return (
@@ -51,6 +51,7 @@ const OwnerRegister = ({setAlert, ownerRegister, isAuthenticated}) => {
             <form className='form' onSubmit ={e =>onSubmit(e)}>
                 
                 <div className='form-group'>
+
                     <input 
                         type='text' 
                         placeholder='Company Name' 
