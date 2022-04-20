@@ -138,6 +138,7 @@ body {
 
   .bg-dark {
   background: rgb(58, 56, 56);
+  /* opacity: 0.2; */
   }
 
   a {
@@ -304,4 +305,14 @@ background-attachment: fixed;
 .form input[type='submit'],
 button {
   font-family: cursive
+}
+
+/* Utilities */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0 2rem;
+  margin-top: 6rem;
+  margin-bottom: 3rem;
 }
