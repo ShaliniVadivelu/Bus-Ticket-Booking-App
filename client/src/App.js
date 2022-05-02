@@ -54,4 +54,4 @@ const App = () => {
 )};
 export default App;
 
-//It is used to define and render component based on the specified path. It will accept components and render to define what should be rendered.
+//Route-It is used to define and render component based on the specified path. It will accept components and render to define what should be rendered.

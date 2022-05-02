@@ -6,6 +6,7 @@ import { ownerLogin } from '../../actions/auth';
 import PropTypes from 'prop-types';
     
 const OwnerLogin = ({ownerLogin, isAuthenticated}) => {
+    //formData is the statevariable
     const [formData, setFormData] = useState ({
         email: '',
         role: '' ,
@@ -18,7 +19,7 @@ const OwnerLogin = ({ownerLogin, isAuthenticated}) => {
     const onChange = e => setFormData({...formData, [e.target.name]: e.target.value});
 
     const onSubmit = async e => {
-        //we cannot return false to prevent default behaviour in react. we have to call it explicitly
+        //we cannot return false to prevent default behaviour in react. we have to call preventDefault() method explicitly
         //e-> synthetic event
         e.preventDefault();
          console.log(formData);
