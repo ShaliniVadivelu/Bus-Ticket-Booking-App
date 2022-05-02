@@ -7,7 +7,9 @@ import {
     OWNER_LOADED,
     AUTH_ERROR,
     LOGIN_SUCCESS,
-    LOGIN_FAIL
+    LOGIN_FAIL,
+    LOGOUT,
+
 } from './types';
 import setAuthToken from '../utils/setAuthToken';
 
@@ -32,6 +34,7 @@ export const loadUser = () => async dispatch => {
 
 //Register User
 export const userRegister = ({name,email,role,phone,gender,dob,address,password}) => async dispatch =>{
+    //sending data 
     const config = {
         headers:  {
             'Content-Type': 'application/json'
@@ -104,7 +107,7 @@ export const loadOwner = () => async dispatch => {
     } 
  
  try {
-     const res = await axios.get('/api/auth/owner');
+     const res = await axios.get('/api/auth/admin');
      dispatch ({
          type: OWNER_LOADED,
          payload: res.data
@@ -169,7 +172,7 @@ try {
         payload: res.data
     });
 
-    dispatch(loadUser());
+    dispatch(loadOwner());
 }catch (err) {
     const errors = err.response.data.errors;
 
@@ -182,4 +185,9 @@ try {
     });
 }
 }
+
+// Logout / clear profile
+export const logout = () => dispatch => {
+    dispatch ({ type: LOGOUT});
+};
 
